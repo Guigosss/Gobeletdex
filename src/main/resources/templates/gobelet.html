@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <title>Gobelet</title>
+</head>
+
+<body>
+
+<div class="pokedex">
+
+    <!-- Background -->
+    <img src="/img/background.jpg" alt="Pokedex">
+
+    <!-- Infos -->
+    <div class="ecran">
+        <h1 class="pokemon" th:text="${gobelet.nom}"></h1>
+
+        <p th:text="${gobelet.description}"></p>
+
+        <img th:src="@{'/img/' + ${gobelet.image}}"
+             th:alt="${gobelet.nom}"
+             width="200">
+
+        <!-- Bouton Retour -->
+        <div class="actions">
+            <a th:href="@{/}" class="btn-retour">← Retour</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
