@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <title>Liste</title>
+</head>
+<body>
+<div class="pokedex">
+
+    <!-- Background -->
+    <img src="/img/background.jpg" alt="Pokedex">
+
+    <div class="ecran">
+        <h1 class="pokemon">Gobeletdex</h1>
+
+        <!-- Filtre -->
+        <form method="get">
+            <select name="type">
+                <option value="">Tous</option>
+                <option value="MAMMIFERE">Mammifères</option>
+                <option value="REPTILE">Reptiles</option>
+                <option value="POISSON">Poissons</option>
+                <option value="OISEAU">Oiseaux</option>
+            </select>
+
+            <button type="submit">Filtrer</button>
+        </form>
+
+        <!-- Liste -->
+        <table>
+            <tbody>
+            <tr th:each="gobelet, statut : ${gobelets}">
+                <td th:text="${gobelet.id}"></td>
+                <td>
+                    <a th:href="@{/gobelet/{name}(name=${gobelet.nom})}"
+                       th:text="${gobelet.nom}">
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
