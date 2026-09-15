@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <title>Gobelet Create</title>
+</head>
+<body>
+
+    <div class="pokedex">
+
+        <!-- Background -->
+        <img src="/img/background.jpg" alt="Pokedex">
+
+        <div class="ecran">
+            <h1 class="pokemon">Gobeletdex</h1>
+
+            <!-- Formulaire -->
+            <form th:action="${gobeletId == null} ? @{/create} : @{/gobelet/edit/{gobeletId}(gobeletId=${gobeletId})}"
+                  method="post"
+                  th:object="${gobelet}"
+                  class="create-form"
+            >
+                <div>
+                    <label for="nom">Name</label>
+                    <input type="text" id="nom" th:field="*{nom}">
+                    <span th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}" class="error"></span>
+                </div>
+
+                <div>
+                    <label for="description">Description</label>
+                    <input type="text" id="description" th:field="*{description}">
+                </div>
+
+                <div>
+                    <label for="type">Type</label>
+                    <select id="type" th:field="*{typeGobelet}">
+                        <option th:each="type : ${types}"
+                                th:value="${type.typeId}"
+                                th:text="${type.name}"
+                        ></option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('typeGobelet')}" th:errors="*{typeGobelet}" class="error"></span>
+                </div>
+
+                <button type="submit"
+                        th:text="${id == null} ? 'Create' : 'Update'"
+                >
+                    Create
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

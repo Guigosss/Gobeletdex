@@ -16,32 +16,51 @@
     <div class="ecran">
         <h1 class="pokemon">Gobeletdex</h1>
 
-        <!-- Filtre -->
-        <form method="get">
-            <select name="type">
-                <option value="">Tous</option>
-                <option value="MAMMIFERE">Mammifères</option>
-                <option value="REPTILE">Reptiles</option>
-                <option value="POISSON">Poissons</option>
-                <option value="OISEAU">Oiseaux</option>
-            </select>
+        <div class="filter-actions">
+            <!-- Filtre -->
+            <form class="filter-form" method="get">
+                <select name="type">
+                    <option value="">Tous</option>
+                    <option th:each="type : ${types}"
+                            th:value="${type.typeId}"
+                            th:text="${type.name}"
+                            th:selected="${type.typeId == typeId}">
+                    </option>
+                </select>
 
-            <button type="submit">Filtrer</button>
-        </form>
+                <button class="btn" type="submit">Filtrer</button>
+            </form>
+
+            <a class="btn-add" th:href="@{/create}">+</a>
+        </div>
 
         <!-- Liste -->
-        <table>
+        <table class="pokedex-table">
             <tbody>
             <tr th:each="gobelet, statut : ${gobelets}">
-                <td th:text="${gobelet.id}"></td>
-                <td>
-                    <a th:href="@{/gobelet/{name}(name=${gobelet.nom})}"
+                <td class="col-id" th:text="${gobelet.gobeletId}"></td>
+                <td class="col-name">
+                    <a th:href="@{/gobelet/{id}(id=${gobelet.gobeletId})}"
                        th:text="${gobelet.nom}">
                     </a>
+                </td>
+                <td class="col-actions">
+                    <div class="action-cell">
+
+                        <!-- Modifier : GET -->
+                        <a class="icon-btn edit-btn" th:href="@{/gobelet/edit/{id}(id=${gobelet.gobeletId})}">✏️</a>
+
+                        <!-- Supprimer : POST -->
+                        <form th:action="@{/gobelet/delete/{id}(id=${gobelet.gobeletId})}" method="post">
+                            <button class="icon-btn delete-btn" type="submit">🗑️</button>
+                        </form>
+
+                    </div>
                 </td>
             </tr>
             </tbody>
         </table>
+
     </div>
 </div>
 </body>
