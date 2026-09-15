@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.example.introspringmvc.Jdbc.enums.TypeGobelet;
 
 @Getter
 @Setter
@@ -21,5 +22,5 @@ public class Gobelet {
     private String nom;
     private String description;
     private String image;
-    private TypeGobeletView typeGobeletView;
+    private TypeGobelet typeGobelet;
 }

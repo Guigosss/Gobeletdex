@@ -27,5 +27,5 @@ public class GobeletForm {
     private String image;
 
     @NotNull
-    private TypeGobeletView typeGobeletView;
+    private TypeGobelet typeGobelet;
 }

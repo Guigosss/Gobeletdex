@@ -1,11 +1,10 @@
 package org.example.introspringmvc.Jdbc.services;
 
 import org.example.introspringmvc.Jdbc.daos.GobeletDAO;
+import org.example.introspringmvc.Jdbc.enums.TypeGobelet;
 import org.example.introspringmvc.Jdbc.exceptions.DaoException;
 import org.example.introspringmvc.Jdbc.models.Gobelet;
 import org.example.introspringmvc.Jdbc.models.GobeletForm;
-import org.example.introspringmvc.Jdbc.models.TypeGobeletView;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class GobeletServiceJdbc implements IGobeletService {
     }
 
     @Override
-    public List<Gobelet> getGobelets(TypeGobeletView type) {
+    public List<Gobelet> getGobelets(TypeGobelet type) {
         return gobeletDAO.getGobelets(type);
     }
 

@@ -4,7 +4,6 @@ import org.example.introspringmvc.Jdbc.enums.TypeGobelet;
 import org.example.introspringmvc.Jdbc.exceptions.DaoException;
 import org.example.introspringmvc.Jdbc.models.Gobelet;
 import org.example.introspringmvc.Jdbc.models.GobeletForm;
-import org.example.introspringmvc.Jdbc.models.TypeGobeletView;
 import org.example.introspringmvc.Jdbc.utils.ConnectionUtils;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +25,7 @@ public class GobeletDAO {
             ps.setString(1, gobelet.getNom());
             ps.setString(2, gobelet.getDescription());
             ps.setString(3, gobelet.getImage());
-            ps.setString(4, gobelet.getTypeGobeletView().getName());
+            ps.setString(4, gobelet.getTypeGobelet().name());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -62,7 +61,7 @@ public class GobeletDAO {
             ps.setString(1, gobelet.getNom());
             ps.setString(2, gobelet.getDescription());
             ps.setString(3, gobelet.getImage());
-            ps.setString(4, gobelet.getTypeGobeletView().getName());
+            ps.setString(4, gobelet.getTypeGobelet().name());
             ps.setLong(5, id);
             ps.executeUpdate();
 
@@ -71,7 +70,7 @@ public class GobeletDAO {
         }
     }
 
-    public List<Gobelet> getGobelets(TypeGobeletView type) {
+    public List<Gobelet> getGobelets(TypeGobelet type) {
         String sql = "SELECT * FROM gobelet " +
                 "WHERE deleted IS FALSE " +
                 "AND (? IS NULL OR type = ?)";
@@ -81,7 +80,7 @@ public class GobeletDAO {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            String typeValue = type != null ? type.getName() : null;
+            String typeValue = type != null ? type.name() : null;
 
             ps.setString(1, typeValue);
             ps.setString(2, typeValue);
@@ -93,12 +92,7 @@ public class GobeletDAO {
                     gobelet.setNom(rs.getString("nom"));
                     gobelet.setDescription(rs.getString("description"));
                     gobelet.setImage(rs.getString("image"));
-                    gobelet.setTypeGobeletView(
-                            new TypeGobeletView(
-                                    rs.getLong("type"),
-                                    TypeGobelet.fromId(rs.getLong("type"))
-                            )
-                    );
+                    gobelet.setTypeGobelet(TypeGobelet.valueOf(rs.getString("type")));
                     gobelets.add(gobelet);
                 }
             }
@@ -122,12 +116,7 @@ public class GobeletDAO {
                 gobelet.setNom(rs.getString("nom"));
                 gobelet.setDescription(rs.getString("description"));
                 gobelet.setImage(rs.getString("image"));
-                gobelet.setTypeGobeletView(
-                        new TypeGobeletView(
-                                rs.getLong("type"),
-                                TypeGobelet.fromId(rs.getLong("type"))
-                        )
-                );
+                gobelet.setTypeGobelet(TypeGobelet.valueOf(rs.getString("type")));
             }
         } catch (SQLException e){
             throw new RuntimeException(e);

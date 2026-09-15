@@ -1,11 +1,10 @@
 package org.example.introspringmvc.Jdbc.controllers;
 
 import jakarta.validation.Valid;
+import org.example.introspringmvc.Jdbc.enums.TypeGobelet;
 import org.example.introspringmvc.Jdbc.models.Gobelet;
 import org.example.introspringmvc.Jdbc.models.GobeletForm;
-import org.example.introspringmvc.Jdbc.models.TypeGobeletView;
 import org.example.introspringmvc.Jdbc.services.IGobeletService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +23,11 @@ public class GobeletController {
     }
 
     @GetMapping
-    public String home(@RequestParam(required = false) TypeGobeletView type,
+    public String home(@RequestParam(required = false) TypeGobelet type,
                        Model model) {
         model.addAttribute("gobelets", gobeletService.getGobelets(type));
-        model.addAttribute("types", gobeletService.getTypesGobelet());
-        model.addAttribute("typeId", type.getTypeId());
+        model.addAttribute("type", type);
+        model.addAttribute("types", TypeGobelet.values());
         return "index";
     }
 
@@ -42,7 +41,7 @@ public class GobeletController {
     @GetMapping("/create")
     public String formCreate(Model model){
         model.addAttribute("gobelet", new GobeletForm());
-        model.addAttribute("types", gobeletService.getTypesGobelet());
+        model.addAttribute("types", TypeGobelet.values());
         model.addAttribute("id", null);
         return "form";
     }
@@ -76,10 +75,10 @@ public class GobeletController {
         form.setNom(gobelet.getNom());
         form.setDescription(gobelet.getDescription());
         form.setImage(gobelet.getImage());
-        form.setTypeGobeletView(gobelet.getTypeGobeletView());
+        form.setTypeGobelet(gobelet.getTypeGobelet());
 
         model.addAttribute("gobelet", form);
-        model.addAttribute("types", gobeletService.getTypesGobelet());
+        model.addAttribute("types", TypeGobelet.values());
         model.addAttribute("gobeletId", gobeletId);
 
         return "form";
@@ -92,7 +91,7 @@ public class GobeletController {
                          Model model){
 
         if (result.hasErrors()){
-            model.addAttribute("types", gobeletService.getTypesGobelet());
+            model.addAttribute("types", TypeGobelet.values());
             model.addAttribute("gobeletId", gobeletId);
             return "form";
         }
